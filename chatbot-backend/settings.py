@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+os.environ["ANTHROPIC_API_KEY"] = ("sk-ant-api03-RCuXiep2mAqjK67"
+                                   "-hI3bPS37QXMgHBkexKISG3NV1ZbeFsGYXCJsFEVMgbikhHLuiyzj7ck_Xt-g8MjKKV1MPA-_rEdrwAA")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "chatbot",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "chatbot_backend.urls"
+ROOT_URLCONF = "chatbot-backend.urls"
 
 TEMPLATES = [
     {
