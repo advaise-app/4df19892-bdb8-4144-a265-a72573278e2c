@@ -1,12 +1,9 @@
 import os
 from llama_index.core import Settings, Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.llms.replicate import Replicate
 from llama_index.llms.anthropic import Anthropic
-from transformers import AutoTokenizer
 
 # Set API key
-# os.environ["REPLICATE_API_TOKEN"] = "r8_YL0Iibrqio0IIGi4foyzDflzDFA5sxH1h1INk"
 os.environ["ANTHROPIC_API_KEY"] = ("sk-ant-api03-RCuXiep2mAqjK67"
                                    "-hI3bPS37QXMgHBkexKISG3NV1ZbeFsGYXCJsFEVMgbikhHLuiyzj7ck_Xt-g8MjKKV1MPA-_rEdrwAA")
 
@@ -18,13 +15,6 @@ Miesha is a Diversity and Inclusiveness Researcher with 10 years of work experie
 Israel has 20 years of experience as a Diversity and Inclusiveness Researcher. He works at SubCo, a subcontractor to DemoCo.
 """
 
-# # Create a Replicate object
-# llama2_7b_chat = "meta/llama-2-7b-chat:8e6975e5ed6174911a6ff3d60540dfd4844201974602551e10e9e87ab143d81e"
-# Settings.llm = Replicate(
-#     model=llama2_7b_chat,
-#     temperature=0.01,
-#     additional_kwargs={"top_p": 1, "max_new_tokens": 300},
-# )
 
 # Set the LLM to Claude-3-Sonnet
 Settings.llm = Anthropic(model="claude-3-sonnet-20240229")
