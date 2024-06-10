@@ -49,6 +49,7 @@ export default function Chatbot() {
       setAnswer(response.data.answer);
     } catch (error) {
       console.error("Error:", error);
+      setAnswer("Sorry, I am unable to find the answer", error);
     }
     setLoading(false);
   };
