@@ -1,11 +1,14 @@
 import os
+from dotenv import load_dotenv
 from llama_index.core import Settings, Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.anthropic import Anthropic
 
-# Set API key
-os.environ["ANTHROPIC_API_KEY"] = ("sk-ant-api03-RCuXiep2mAqjK67"
-                                   "-hI3bPS37QXMgHBkexKISG3NV1ZbeFsGYXCJsFEVMgbikhHLuiyzj7ck_Xt-g8MjKKV1MPA-_rEdrwAA")
+# Load environment variables from .env file
+load_dotenv()
+
+# Set API key from environment variable
+os.environ["ANTHROPIC_API_KEY"] = os.getenv("ANTHROPIC_API_KEY")
 
 # Load the knowledge base data
 knowledge_base_data = """
@@ -23,7 +26,7 @@ Settings.llm = Anthropic(model="claude-3-sonnet-20240229")
 tokenizer = Anthropic().tokenizer
 Settings.tokenizer = tokenizer
 
-# Set the embed model
+# Set the embed model and disable tokenizer parallelism
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 Settings.embed_model = HuggingFaceEmbedding(
     model_name="BAAI/bge-small-en-v1.5"
@@ -37,6 +40,16 @@ index = VectorStoreIndex.from_documents([document])
 
 
 def generate_answer(query):
+    """
+        Generates an answer based on the given query using the knowledge base data.
+
+        Args:
+            query (str): The query to answer.
+
+        Returns:
+            dict: A dictionary containing the generated answer.
+    """
+    # Define the prompt Template
     prompt = f"""
     Based on the following knowledge base data:
 
@@ -44,16 +57,24 @@ def generate_answer(query):
 
     Please answer the query: "{query}"
 
-    Provide the answer as a comma-separated list of names that match the requirements specified in the query. If no names match the requirements or the answer is unknown based on the given data, respond with "No result / Unknown".
+    Provide the answer as a comma-separated list of names that match the requirements specified in the query. If no 
+    names match the requirements or the answer is unknown based on the given data, respond with "No result / Unknown".
 
     Answer:
     """
 
+    # Query the index with the prompt
     query_engine = index.as_query_engine()
+
+    # Generate a response based on the query
     response = query_engine.query(prompt)
 
+    # Extract the answer string from the response
     answer_string = response.response
+
+    # Create a dictionary with the answer
     answer_dict = {"answer": answer_string}
+
     return answer_dict
 
 
@@ -76,6 +97,7 @@ if __name__ == '__main__':
         "they have less than 15 years of experience, they are a contractor"
     ]
 
+    # Generate answers for the queries
     for query in queries:
         answer = generate_answer(query)
         print(f"Query: {query}")
