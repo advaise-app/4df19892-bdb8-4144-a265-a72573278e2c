@@ -20,7 +20,7 @@ Israel has 20 years of experience as a Diversity and Inclusiveness Researcher. H
 
 
 # Set the LLM to Claude-3-Sonnet
-Settings.llm = Anthropic(model="claude-3-sonnet-20240229")
+Settings.llm = Anthropic(model="claude-3-opus-20240229")
 
 # Set the tokenizer
 tokenizer = Anthropic().tokenizer
